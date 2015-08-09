@@ -1,4 +1,4 @@
-from api import db
+from api.models import db
 
 
 class Cookie(db.Model):
