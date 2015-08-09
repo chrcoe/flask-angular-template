@@ -1,4 +1,6 @@
-from api.models import db
+from api import db
+
+# pylint:disable=R0903
 
 
 class Cookie(db.Model):

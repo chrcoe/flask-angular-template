@@ -1,9 +1,9 @@
-from flask import abort
 from api.models import Cookie
-from api.models import db
+from api import db
 from flask_restful import Resource, reqparse, fields, marshal_with
+# pylint:disable=R0201
 
-cookie_fields = {
+COOKIE_FIELDS = {
     'cookie_name': fields.String,
     'cookie_recipe_url': fields.String,
     'quantity': fields.Integer,
@@ -14,8 +14,8 @@ cookie_fields = {
 class CookieListAPI(Resource):
     '''
     This handles listing collections.
-    GET /cookies/api/v1.0/cookies for reading all cookies
-    POST /cookies/api/v1.0/cookies for creates
+    GET api.[domain]/v1.0/cookies for reading all cookies
+    POST api.[domain]/v1.0/cookies for creates
     '''
 
     def __init__(self):
@@ -26,11 +26,11 @@ class CookieListAPI(Resource):
         self.reqparse.add_argument('quantity', type=int, location='json')
         super(CookieListAPI, self).__init__()
 
-    @marshal_with(cookie_fields)
+    @marshal_with(COOKIE_FIELDS)
     def get(self):
         return Cookie.query.all()
 
-    @marshal_with(cookie_fields)
+    @marshal_with(COOKIE_FIELDS)
     def post(self):
         args = self.reqparse.parse_args()
         cookie = Cookie(
@@ -46,9 +46,9 @@ class CookieListAPI(Resource):
 class CookieAPI(Resource):
     '''
     Handles single resource operations
-    GET /v1.0/cookies/<int:cookie_id> for reads
-    PUT /v1.0/cookies/<int:cookie_id> for updates
-    DELETE /v1.0/cookies/<int:cookie_id> for deletes
+    GET api.[domain]/v1.0/cookies/<int:cookie_id> for reads
+    PUT api.[domain]/v1.0/cookies/<int:cookie_id> for updates
+    DELETE api.[domain]/v1.0/cookies/<int:cookie_id> for deletes
     '''
 
     def __init__(self):
@@ -59,11 +59,11 @@ class CookieAPI(Resource):
         self.reqparse.add_argument('quantity', type=int, location='json')
         super(CookieAPI, self).__init__()
 
-    @marshal_with(cookie_fields, envelope='cookie')
+    @marshal_with(COOKIE_FIELDS, envelope='cookie')
     def get(self, cookie_id):
         return Cookie.query.get_or_404(cookie_id)
 
-    @marshal_with(cookie_fields, envelope='cookie')
+    @marshal_with(COOKIE_FIELDS, envelope='cookie')
     def put(self, cookie_id):
         cookie = Cookie.query.get_or_404(cookie_id)
         args = self.reqparse.parse_args()
