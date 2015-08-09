@@ -26,11 +26,11 @@ class CookieListAPI(Resource):
         self.reqparse.add_argument('quantity', type=int, location='json')
         super(CookieListAPI, self).__init__()
 
-    @marshal_with(COOKIE_FIELDS)
+    @marshal_with(COOKIE_FIELDS, envelope="cookies")
     def get(self):
         return Cookie.query.all()
 
-    @marshal_with(COOKIE_FIELDS)
+    @marshal_with(COOKIE_FIELDS, envelope="cookie")
     def post(self):
         args = self.reqparse.parse_args()
         cookie = Cookie(
