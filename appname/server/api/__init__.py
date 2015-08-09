@@ -13,15 +13,17 @@ def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
 
-    if config[config_name].IS_LOCAL:
-        @app.after_request
-        def after_request(response):
-            response.headers.add('Access-Control-Allow-Origin', '*')
-            response.headers.add('Access-Control-Allow-Headers',
-                                 'Content-Type,Authorization')
-            response.headers.add('Access-Control-Allow-Methods',
-                                 'GET,PUT,POST,DELETE')
-            return response
+    # print(config[config_name].IS_LOCAL)
+
+    # if config[config_name].IS_LOCAL:
+    @app.after_request
+    def after_request(response):
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers',
+                             'Content-Type,Authorization')
+        response.headers.add('Access-Control-Allow-Methods',
+                             'GET,PUT,POST,DELETE')
+        return response
 
     # initialize the DB using the app config info
     db.init_app(app)
