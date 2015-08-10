@@ -1,22 +1,26 @@
 'use strict';
 
-angular.module('myApp.views.cookieview', ['ngRoute'])
+var cookie_module = angular.module('myApp.views.cookie', [
+    'ngRoute',
+    'myApp.views.cookie.cookie-directives'
+]);
 
-.config(['$routeProvider', function($routeProvider) {
-    $routeProvider.when('/cookieview', { // setup the URL we want to use
+cookie_module.config(['$routeProvider', function($routeProvider) {
+    $routeProvider.when('/cookie', { // setup the URL we want to use
         templateUrl: 'views/cookieview/cookieview.html', // load this template
-        controller: 'CookieViewCtrl' // and this controller ...
+        controller: 'CookieCtrl' // and this controller ...
     });
-}])
+}]);
 
-.controller('CookieViewCtrl', ['$scope', '$log', '$http', function($scope, $log, $http) {
+cookie_module.controller('CookieCtrl', ['$scope', '$log', '$http', function($scope, $log, $http) {
 
     $scope.create = function(cookie) {
         var cookie_name = $scope.cookie.cookie_name;
         var cookie_recipe_url = $scope.cookie.cookie_recipe_url;
         var quantity = $scope.cookie.quantity;
-        // fire the API request
-        $http.post('http://api.testflask.local:5000/v1.0/cookies', {
+        var url = 'http://api.testflask.local:5000/v1.0/cookies'
+            // fire the API request
+        $http.post(url, {
             "cookie_name": cookie_name,
             "cookie_recipe_url": cookie_recipe_url,
             "quantity": quantity,

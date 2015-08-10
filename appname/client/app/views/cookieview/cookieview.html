@@ -1,55 +1,51 @@
-<div class="col-md-5 col-lg-5">
-    <strong>Create</strong>:
-    <br />
-    <form name="form" novalidate>
-        <input type="text" ng-model="cookie.cookie_recipe_url" name="recipe" class="form-control" id="recipe-box" placeholder="Enter Recipe URL..." style="max-width: 300px;">
-        <br />
-        <input type="text" ng-model="cookie.cookie_name" name="name" class="form-control" id="name-box" placeholder="Enter Name..." style="max-width: 300px;">
-        <br />
-        <input type="text" ng-model="cookie.quantity" name="quantity" class="form-control" id="quantity-box" placeholder="Enter Quantity..." style="max-width: 300px;">
-        <br />
-        <input type="submit" ng-click="create(cookie)" value="Create">
-    </form>
-    <br />
-    <strong>Retrieve</strong>:
-    <br />
-    <form name="form" novalidate>
-        <input type="text" ng-model="cookie.cookie_id" name="cookie_id" class="form-control" id="id-box" placeholder="Enter Cookie ID..." style="max-width: 300px;">
-        <br />
-        <input type="submit" ng-click="retrieve(cookie)" value="Retrieve">
-    </form>
-    <br />
-    <strong>Update</strong>:
-    <br />
-    <form name="form" novalidate>
-        <input type="text" ng-model="cookie.cookie_id" name="cookie_id" class="form-control" id="id-box" placeholder="Enter Cookie ID..." style="max-width: 300px;">
-        <br />
-        <input type="text" ng-model="cookie.cookie_recipe_url" name="recipe" class="form-control" id="recipe-box" placeholder="Enter Recipe URL..." style="max-width: 300px;">
-        <br />
-        <input type="text" ng-model="cookie.cookie_name" name="name" class="form-control" id="name-box" placeholder="Enter Name..." style="max-width: 300px;">
-        <br />
-        <input type="text" ng-model="cookie.quantity" name="quantity" class="form-control" id="quantity-box" placeholder="Enter Quantity..." style="max-width: 300px;">
-        <br />
-        <input type="submit" ng-click="update(cookie)" value="Update">
-    </form>
-    <br />
-    <strong>Delete</strong>:
-    <br />
-    <form name="delform" novalidate>
-        <input type="text" ng-model="cookie.cookie_id" name="cookie_id" class="form-control" id="id-box" placeholder="Enter Cookie ID..." style="max-width: 300px;">
-        <br />
-        <input type="submit" ng-click="delete(cookie)" value="Delete">
-    </form>
-</div>
+<div ng-controller="CookieCtrl">
 
-<div class="col-md-5 col-lg-5">
-    <div ng-show="msg">
-        <h3>{{ msg }}</h3>
+    <div class="col-md-5 col-lg-5">
+        <strong>Create</strong>:
+        <br />
+        <form name="form" novalidate>
+            <input type="text" ng-model="cookie.cookie_recipe_url" name="recipe" class="form-control" id="recipe-box" placeholder="Enter Recipe URL..." style="max-width: 300px;">
+            <br />
+            <input type="text" ng-model="cookie.cookie_name" name="name" class="form-control" id="name-box" placeholder="Enter Name..." style="max-width: 300px;">
+            <br />
+            <input type="text" ng-model="cookie.quantity" name="quantity" class="form-control" id="quantity-box" placeholder="Enter Quantity..." style="max-width: 300px;">
+            <br />
+            <input type="submit" ng-click="create(cookie)" value="Create">
+        </form>
+        <br />
+        <strong>Retrieve</strong>:
+        <br />
+        <form name="form" novalidate>
+            <input type="text" ng-model="cookie.cookie_id" name="cookie_id" class="form-control" id="id-box" placeholder="Enter Cookie ID..." style="max-width: 300px;">
+            <br />
+            <input type="submit" ng-click="retrieve(cookie)" value="Retrieve">
+        </form>
+        <br />
+        <strong>Update</strong>:
+        <br />
+        <form name="form" novalidate>
+            <input type="text" ng-model="cookie.cookie_id" name="cookie_id" class="form-control" id="id-box" placeholder="Enter Cookie ID..." style="max-width: 300px;">
+            <br />
+            <input type="text" ng-model="cookie.cookie_recipe_url" name="recipe" class="form-control" id="recipe-box" placeholder="Enter Recipe URL..." style="max-width: 300px;">
+            <br />
+            <input type="text" ng-model="cookie.cookie_name" name="name" class="form-control" id="name-box" placeholder="Enter Name..." style="max-width: 300px;">
+            <br />
+            <input type="text" ng-model="cookie.quantity" name="quantity" class="form-control" id="quantity-box" placeholder="Enter Quantity..." style="max-width: 300px;">
+            <br />
+            <input type="submit" ng-click="update(cookie)" value="Update">
+        </form>
+        <br />
+        <strong>Delete</strong>:
+        <br />
+        <form name="form" novalidate>
+            <input type="text" ng-model="cookie.cookie_id" name="cookie_id" class="form-control" id="id-box" placeholder="Enter Cookie ID..." style="max-width: 300px;">
+            <br />
+            <input type="submit" ng-click="delete(cookie)" value="Delete">
+        </form>
     </div>
-    <div ng-if="cookie_result">
-        Cookie name: {{ cookie_result.cookie_name }}
-        <br /> Recipe URL : {{ cookie_result.cookie_recipe_url }}
-        <br /> Quantity: {{ cookie_result.quantity }}
-        <br /> URI: {{ cookie_result.uri }}
+
+    <div class="col-md-5 col-lg-5">
+        <div cookie-result></div>
     </div>
+
 </div>
