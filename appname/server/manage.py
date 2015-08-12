@@ -1,8 +1,9 @@
 #! /usr/bin/env python
 import os
-
+from flask import request, jsonify, session
 from flask.ext.script import Manager, Shell, Command, Server
 from flask.ext.migrate import Migrate, MigrateCommand
+from flask.ext.login import login_required
 
 from api import create_app, db
 from api.models import User
@@ -52,6 +53,26 @@ class DBAPIUser(Command):
         api_user.api_key = 'api_key'
         self.db.session.add(api_user)
         self.db.session.commit()
+
+
+@app.route('/login', methods=['POST'], subdomain='api')
+def login():
+    json_data = request.json
+    user = User.query.filter_by(username=json_data['username']).first()
+    # if user and user.verify_password(json_data.get('password', '')) \
+    if user and user.verify_api_key(json_data.get('api_key', '')):
+        session['logged_in'] = True
+        status = True
+    else:
+        status = False
+    return jsonify({'result': status})
+
+
+@app.route('/logout', subdomain='api')
+@login_required
+def logout():
+    session.pop('logged_in', None)
+    return jsonify({'result': 'success'})
 
 manager.add_command('runserver', Server(host='testflask.local', port=5000))
 manager.add_command('shell', Shell(make_context=make_shell_context))
