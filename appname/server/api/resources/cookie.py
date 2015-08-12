@@ -1,6 +1,7 @@
 from api.models import Cookie
 from api import db
 from flask_restful import Resource, reqparse, fields, marshal_with
+from flask.ext.login import login_required
 # pylint:disable=R0201
 
 COOKIE_FIELDS = {
@@ -17,6 +18,8 @@ class CookieListAPI(Resource):
     GET api.[domain]/v1.0/cookies for reading all cookies
     POST api.[domain]/v1.0/cookies for creates
     '''
+
+    decorators = [login_required]
 
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
@@ -50,6 +53,8 @@ class CookieAPI(Resource):
     PUT api.[domain]/v1.0/cookies/<int:cookie_id> for updates
     DELETE api.[domain]/v1.0/cookies/<int:cookie_id> for deletes
     '''
+
+    decorators = [login_required]
 
     def __init__(self):
         self.reqparse = reqparse.RequestParser()

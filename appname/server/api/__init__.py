@@ -1,11 +1,14 @@
 from flask import Flask
 from flask_restful import Api
+from flask.ext.login import LoginManager
 from flask.ext.sqlalchemy import SQLAlchemy
 
 from config import config
 
 # this must happen before importing the resources to avoid import conflicts
 db = SQLAlchemy()
+login_manager = LoginManager()
+
 from api import endpoints
 
 
@@ -13,9 +16,6 @@ def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
 
-    # print(config[config_name].IS_LOCAL)
-
-    # if config[config_name].IS_LOCAL:
     @app.after_request
     def after_request(response):
         response.headers.add('Access-Control-Allow-Origin', '*')
@@ -33,5 +33,7 @@ def create_app(config_name):
 
     # initialize the endpoints
     endpoints.init(api)
+
+    login_manager.init_app(app)
 
     return app
