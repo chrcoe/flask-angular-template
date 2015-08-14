@@ -6,7 +6,7 @@ var myapp_module = angular.module('myApp', [
     'myApp.views.cookie',
     'myApp.views.view2',
     'myApp.version',
-    'myApp.auth'
+    'myApp.auth',
 ]);
 myapp_module.config(['$routeProvider', function($routeProvider) {
 

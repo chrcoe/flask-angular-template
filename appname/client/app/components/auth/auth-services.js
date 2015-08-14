@@ -1,8 +1,6 @@
 'use strict';
 
-var auth_module = angular.module('myApp.auth', [
-    'ngRoute'
-]);
+var auth_module = angular.module('myApp.auth', []);
 
 auth_module.factory('AuthService', ['$q', '$timeout', '$http',
     function($q, $timeout, $http) {

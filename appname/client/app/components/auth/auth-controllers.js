@@ -1,8 +1,7 @@
 'use strict';
 
-var auth_module = angular.module('myApp.auth', [
-    'ngRoute'
-]);
+// uses the auth module created in auth-services.js
+var auth_module = angular.module('myApp.auth');
 
 auth_module.config(['$routeProvider', function($routeProvider) {
     $routeProvider
@@ -15,7 +14,6 @@ auth_module.config(['$routeProvider', function($routeProvider) {
         });
 }]);
 
-auth_module.controller('Test', ['$scope','$log']);
 auth_module.controller('LoginCtrl', ['$scope', '$location', 'AuthService',
     function($scope, $location, AuthService) {
 
