@@ -1,34 +1,22 @@
-var auth_module = angular.module('myApp.auth', []);
+'use strict';
 
+var auth_module = angular.module('myApp.auth', [
+    'ngRoute'
+]);
 
 auth_module.config(['$routeProvider', function($routeProvider) {
     $routeProvider
-    // .when('/', {
-    // templateUrl: 'static/partials/home.html'
-    // })
         .when('/login', {
             templateUrl: 'components/auth/auth.html',
-            controller: 'loginController'
+            controller: 'LoginCtrl'
         })
         .when('/logout', {
-            controller: 'logoutController'
-        })
-        // .when('/register', {
-        // templateUrl: 'static/partials/register.html',
-        // controller: 'registerController'
-        // })
-        // .when('/one', {
-        // template: '<h1>This is page one!</h1>'
-        // })
-        // .when('/two', {
-        // template: '<h1>This is page two!</h1>'
-        // })
-        .otherwise({
-            redirectTo: '/cookie'
+            controller: 'LogoutCtrl'
         });
 }]);
 
-auth_module.controller('loginController', ['$scope', '$location', 'AuthService',
+auth_module.controller('Test', ['$scope','$log']);
+auth_module.controller('LoginCtrl', ['$scope', '$location', 'AuthService',
     function($scope, $location, AuthService) {
 
         console.log(AuthService.isLoggedIn());
@@ -61,7 +49,7 @@ auth_module.controller('loginController', ['$scope', '$location', 'AuthService',
 ]);
 
 
-auth_module.controller('logoutController', ['$scope', '$location', 'AuthService',
+auth_module.controller('LogoutCtrl', ['$scope', '$location', 'AuthService',
     function($scope, $location, AuthService) {
 
         $scope.logout = function() {

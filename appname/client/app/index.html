@@ -36,6 +36,8 @@
                         <ul class="nav navbar-nav">
                             <li><a href="#/cookie">cookie</a></li>
                             <li><a href="#/view2">view2</a></li>
+                            <li><a href="#/login">login</a></li>
+                            <li><a href="#/logout">logout</a></li>
                         </ul>
                     </div>
                 </div>
@@ -70,6 +72,7 @@
     <script src="vendor/bower_components/angular/angular.js"></script>
     <script src="vendor/bower_components/angular-route/angular-route.js"></script>
     <script src="vendor/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="js/app.js"></script>
     <script src="views/cookieview/cookie-controller.js"></script>
     <script src="components/auth/auth-controllers.js"></script>
     <script>
@@ -88,7 +91,6 @@
         !function(n,t,e){function r(n,e){var r=t.createElement("script"),o=l;r.onload=r.onerror=r[h]=function(){r[p]&&!/^c|loade/.test(r[p])||o||(r.onload=r[h]=null,o=1,e())},r.async=1,r.src=n,i.insertBefore(r,i.firstChild)}function o(n,t){m(n,function(n){return!t(n)})}var i=t.getElementsByTagName("head")[0],u={},c={},a={},f={},l=!1,s="push",d="DOMContentLoaded",p="readyState",v="addEventListener",h="onreadystatechange",m=function(n,t){for(var e=0,r=n.length;r>e;++e)if(!t(n[e]))return l;return 1};!t[p]&&t[v]&&(t[v](d,function E(){t.removeEventListener(d,E,l),t[p]="complete"},l),t[p]="loading");var g=function(n,t,i){function l(){if(!--y){u[h]=1,v&&v();for(var n in a)m(n.split("|"),d)&&!o(a[n],d)&&(a[n]=[])}}function d(n){return n.call?n():u[n]}n=n[s]?n:[n];var p=t&&t.call,v=p?t:i,h=p?n.join(""):t,y=n.length;return e(function(){o(n,function(n){f[n]?(h&&(c[h]=1),l()):(f[n]=1,h&&(c[h]=1),r(g.path?g.path+n+".js":n,l))})},0),g};g.get=r,g.ready=function(n,t,e){n=n[s]?n:[n];var r=[];return!o(n,function(n){u[n]||r[s](n)})&&m(n,function(n){return u[n]})?t():!function(n){a[n]=a[n]||[],a[n][s](t),e&&e(r)}(n.join("|")),g};var y=n.$script;g.noConflict=function(){return n.$script=y,this},"undefined"!=typeof module&&module.exports?module.exports=g:n.$script=g}(this,document,setTimeout);
         // load all of the dependencies asynchronously.
         $script([
-            'js/app.js',
             'views/cookieview/cookie-directives.js',
             'components/auth/auth-services.js',
             'views/view2/view2.js',

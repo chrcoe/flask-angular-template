@@ -9,7 +9,20 @@ var myapp_module = angular.module('myApp', [
     'myApp.auth'
 ]);
 myapp_module.config(['$routeProvider', function($routeProvider) {
-    $routeProvider.otherwise({
-        redirectTo: '/cookie'
-    });
+
+    $routeProvider
+        .when('/login', {
+            templateUrl: 'components/auth/auth.html',
+            controller: 'LoginCtrl'
+        })
+        // .when('/logout', {
+        // controller: 'LogoutCtrl'
+        // })
+        // .when('/register', {
+        // templateUrl: 'static/partials/register.html',
+        // controller: 'registerController'
+        // })
+        .otherwise({
+            redirectTo: '/'
+        });
 }]);
