@@ -5,13 +5,23 @@ var cookie_module = angular.module('myApp.views.cookie', [
     'myApp.views.cookie.cookie-directives'
 ]);
 
-cookie_module.config(['$routeProvider', function($routeProvider) {
-    $routeProvider
-        .when('/cookie', { // setup the URL we want to use
-            templateUrl: 'views/cookieview/cookieview.html', // load this template
-            controller: 'CookieCtrl' // and this controller ...
-        });
-}]);
+cookie_module.config(['$routeProvider', '$httpProvider',
+    function($routeProvider, $httpProvider) {
+        $routeProvider
+            .when('/cookie', { // setup the URL we want to use
+                templateUrl: 'views/cookieview/cookieview.html', // load this template
+                controller: 'CookieCtrl', // and this controller ...
+                access: { restricted: true } // restrict access to authenticated users only
+            });
+        // this is setting the authentication headers for all Cookie-related
+        // API requests .. this can be done in the global app.js setup as well:
+        // https://docs.angularjs.org/api/ng/service/$http
+        $httpProvider.defaults.headers.common[
+            // special API account for this application .. users still need to be
+            // logged in to get to the view which provides access to the cookie ctrl
+            'Authorization'] = 'Basic dGVzdGFwaTphcGlfa2V5'
+    }
+]);
 
 cookie_module.controller('CookieCtrl', ['$scope', '$log', '$http',
     function($scope, $log, $http) {
@@ -21,6 +31,7 @@ cookie_module.controller('CookieCtrl', ['$scope', '$log', '$http',
             var cookie_recipe_url = $scope.cookie.cookie_recipe_url;
             var quantity = $scope.cookie.quantity;
             var url = 'http://api.testflask.local:5000/v1.0/cookies'
+                // need to add the APIkey to the request ...
                 // fire the API request
             $http.post(url, {
                 "cookie_name": cookie_name,

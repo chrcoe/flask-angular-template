@@ -11,13 +11,26 @@ var myapp_module = angular.module('myApp', [
 myapp_module.config(['$routeProvider', function($routeProvider) {
 
     $routeProvider
-        .when('/login', {
-            templateUrl: 'components/auth/auth.html',
-            controller: 'LoginCtrl'
+        .when('/', {
+            templateUrl: 'views/home/home.html',
+            access: {
+                restricted: false
+            }
         })
-        // .when('/logout', {
-        // controller: 'LogoutCtrl'
-        // })
+        .when('/login', {
+            templateUrl: 'components/auth/auth-login.html',
+            controller: 'LoginCtrl',
+            access: {
+                restricted: false
+            }
+        })
+        .when('/logout', {
+            templateUrl: 'components/auth/auth-logout.html',
+            controller: 'LogoutCtrl',
+            access: {
+                restricted: false
+            }
+        })
         // .when('/register', {
         // templateUrl: 'static/partials/register.html',
         // controller: 'registerController'
@@ -26,3 +39,12 @@ myapp_module.config(['$routeProvider', function($routeProvider) {
             redirectTo: '/'
         });
 }]);
+
+myapp_module.run(function($rootScope, $location, $route, AuthService) {
+    $rootScope.$on('$routeChangeStart', function(event, next, current) {
+        if (next.access.restricted && AuthService.isLoggedIn() === false) {
+            $location.path('/login');
+            $route.reload();
+        }
+    });
+});

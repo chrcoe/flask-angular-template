@@ -3,21 +3,11 @@
 // uses the auth module created in auth-services.js
 var auth_module = angular.module('myApp.auth');
 
-auth_module.config(['$routeProvider', function($routeProvider) {
-    $routeProvider
-        .when('/login', {
-            templateUrl: 'components/auth/auth.html',
-            controller: 'LoginCtrl'
-        })
-        .when('/logout', {
-            controller: 'LogoutCtrl'
-        });
-}]);
-
 auth_module.controller('LoginCtrl', ['$scope', '$location', 'AuthService',
     function($scope, $location, AuthService) {
 
-        console.log(AuthService.isLoggedIn());
+        console.log("in LoginCtrl.login()");
+        console.log("Logged in?: " + AuthService.isLoggedIn());
 
         $scope.login = function() {
 
@@ -54,7 +44,8 @@ auth_module.controller('LogoutCtrl', ['$scope', '$location', 'AuthService',
 
             console.log(AuthService.isLoggedIn());
 
-            // call logout from service
+            // call logout from service and redirect to /login when finished
+            console.log(AuthService.isLoggedIn());
             AuthService.logout()
                 .then(function() {
                     $location.path('/login');
