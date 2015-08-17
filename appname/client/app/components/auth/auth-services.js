@@ -67,33 +67,36 @@ auth_module.factory('AuthService', ['$q', '$timeout', '$http',
             return deferred.promise;
         }
 
-        // function register(email, password) {
-        // // create a new instance of deferred
-        // var deferred = $q.defer();
-        // // send a post request to the server
-        // $http.post('/api/register', {email: email, password: password})
-        // // handle success
-        // .success(function (data, status) {
-        // if(status === 200 && data.result){
-        // deferred.resolve();
-        // } else {
-        // deferred.reject();
-        // }
-        // })
-        // // handle error
-        // .error(function (data) {
-        // deferred.reject();
-        // });
-        // // return promise object
-        // return deferred.promise;
-        // }
+        function register(username, password) {
+            // create a new instance of deferred
+            var deferred = $q.defer();
+            // send a post request to the server
+            $http.post('http://api.testflask.local:5000/register', {
+                    username: username,
+                    password: password
+                })
+                // handle success
+                .success(function(data, status) {
+                    if (status === 200 && data.result) {
+                        deferred.resolve();
+                    } else {
+                        deferred.reject();
+                    }
+                })
+                // handle error
+                .error(function(data) {
+                    deferred.reject();
+                });
+            // return promise object
+            return deferred.promise;
+        }
 
         // return available functions for use in controllers
         return ({
             isLoggedIn: isLoggedIn,
             login: login,
             logout: logout,
-            // register: register
+            register: register
         });
     }
 ]);

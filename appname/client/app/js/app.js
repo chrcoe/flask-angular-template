@@ -12,9 +12,15 @@ myapp_module.config(['$routeProvider', function($routeProvider) {
 
     $routeProvider
         .when('/', {
-            templateUrl: 'views/home/home.html',
+            // templateUrl: 'index-new.html',
             access: {
                 restricted: false
+            }
+        })
+        .when('/appname', {
+            templateUrl: 'views/home/home.html',
+            access: {
+                restricted: true
             }
         })
         .when('/login', {
@@ -25,16 +31,18 @@ myapp_module.config(['$routeProvider', function($routeProvider) {
             }
         })
         .when('/logout', {
-            templateUrl: 'components/auth/auth-logout.html',
             controller: 'LogoutCtrl',
             access: {
                 restricted: false
             }
         })
-        // .when('/register', {
-        // templateUrl: 'static/partials/register.html',
-        // controller: 'registerController'
-        // })
+        .when('/register', {
+            templateUrl: 'components/auth/auth-register.html',
+            controller: 'RegisterCtrl',
+            access: {
+                restricted: false
+            }
+        })
         .otherwise({
             redirectTo: '/'
         });

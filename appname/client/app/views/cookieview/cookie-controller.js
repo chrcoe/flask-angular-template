@@ -8,18 +8,23 @@ var cookie_module = angular.module('myApp.views.cookie', [
 cookie_module.config(['$routeProvider', '$httpProvider',
     function($routeProvider, $httpProvider) {
         $routeProvider
-            .when('/cookie', { // setup the URL we want to use
+            .when('/appname/cookie', { // setup the URL we want to use
                 templateUrl: 'views/cookieview/cookieview.html', // load this template
                 controller: 'CookieCtrl', // and this controller ...
-                access: { restricted: true } // restrict access to authenticated users only
+                access: {
+                    restricted: true
+                } // restrict access to authenticated users only
             });
         // this is setting the authentication headers for all Cookie-related
         // API requests .. this can be done in the global app.js setup as well:
         // https://docs.angularjs.org/api/ng/service/$http
         $httpProvider.defaults.headers.common[
-            // special API account for this application .. users still need to be
-            // logged in to get to the view which provides access to the cookie ctrl
-            'Authorization'] = 'Basic dGVzdGFwaTphcGlfa2V5'
+                // special API account for this application .. users still need to be
+                // logged in to get to the view which provides access to the cookie ctrl
+                'Authorization'] = 'Basic dGVzdGFwaTphcGlfa2V5'
+            // obviously this is hardcoded and would not be very secure, need
+            // to pull this from an environment variable or config file that is
+            // NEVER saved to github
     }
 ]);
 
@@ -38,12 +43,13 @@ cookie_module.controller('CookieCtrl', ['$scope', '$log', '$http',
                 "cookie_recipe_url": cookie_recipe_url,
                 "quantity": quantity,
             }).
-            success(function(results) {
-                $log.log(results);
-                $scope.cookie_result = results.cookie;
+            then(function(results) {
+                $log.log(results.data.cookie);
+                $scope.cookie_result = results.data.cookie;
+                $log.log($scope.cookie_result);
                 $scope.msg = "Cookie created!";
             }).
-            error(function(error) {
+            catch(function(error) {
                 $scope.cookie_result = null;
                 $scope.msg = "Cookie not found!";
                 $log.log(error);
@@ -58,12 +64,12 @@ cookie_module.controller('CookieCtrl', ['$scope', '$log', '$http',
             var url = 'http://api.testflask.local:5000/v1.0/cookies/{x}'.replace('{x}', cookie_id);
             $log.log(url)
             $http.get(url).
-            success(function(results) {
-                $log.log(results);
-                $scope.cookie_result = results.cookie;
+            then(function(results) {
+                $log.log(results.data.cookie);
+                $scope.cookie_result = results.data.cookie;
                 $scope.msg = "Cookie found!";
             }).
-            error(function(error) {
+            catch(function(error) {
                 $scope.cookie_result = null;
                 $scope.msg = "Cookie not found!";
                 $log.log(error);
@@ -85,12 +91,12 @@ cookie_module.controller('CookieCtrl', ['$scope', '$log', '$http',
                 "cookie_recipe_url": cookie_recipe_url,
                 "quantity": quantity,
             }).
-            success(function(results) {
-                $log.log(results);
-                $scope.cookie_result = results.cookie;
+            then(function(results) {
+                $log.log(results.data.cookie);
+                $scope.cookie_result = results.data.cookie;
                 $scope.msg = "Cookie updated!";
             }).
-            error(function(error) {
+            catch(function(error) {
                 $scope.cookie_result = null;
                 $scope.msg = "Cookie not found!";
                 $log.log(error);
@@ -105,12 +111,12 @@ cookie_module.controller('CookieCtrl', ['$scope', '$log', '$http',
             var url = 'http://api.testflask.local:5000/v1.0/cookies/{x}'.replace('{x}', cookie_id);
             $log.log(url)
             $http.delete(url).
-            success(function(results) {
-                $log.log(results);
+            then(function(results) {
+                $log.log(results.data.cookie);
                 $scope.cookie_result = null;
                 $scope.msg = "Cookie deleted!";
             }).
-            error(function(error) {
+            catch(function(error) {
                 $scope.msg = "Cookie not found!";
                 $log.log(error);
             });

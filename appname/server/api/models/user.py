@@ -14,7 +14,7 @@ class User(db.Model):
     __tablename__ = 'users'
 
     user_id = db.Column(db.Integer(), primary_key=True)
-    username = db.Column(db.String(50))
+    username = db.Column(db.String(50), unique=True)
     password = db.Column(db.String(50))
     password_hash = db.Column(db.String(255))
     api_key = db.Column(db.String(50))

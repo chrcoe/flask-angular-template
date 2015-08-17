@@ -63,16 +63,39 @@ def login():
     if user and user.verify_api_key(json_data.get('api_key', '')):
         session['logged_in'] = True
         status = True
+        print('user logged in!')
     else:
         status = False
-    return jsonify({'result': status})
+        print('user failed to authenticate!:\t{}:{}'.format(
+            json_data['username'], json_data['api_key']))
+    return jsonify(result=status)
 
 
 @app.route('/logout', subdomain='api')
 @login_required
 def logout():
     session.pop('logged_in', None)
-    return jsonify({'result': 'success'})
+    return jsonify(result=True)
+
+
+@app.route('/register', methods=['POST'], subdomain='api')
+def register():
+    json_data = request.json
+    user = User(
+        username=json_data['username'],
+        password=json_data['password']
+    )
+    try:
+        db.session.add(user)
+        db.session.commit()
+        # status = 'success'
+        status = True
+        print('successfully registered user:\t{}'.format(json_data['username']))
+    except:
+        # status = 'this user is already registered'
+        status = False
+    db.session.close()
+    return jsonify(result=status)
 
 manager.add_command('runserver', Server(host='testflask.local', port=5000))
 manager.add_command('shell', Shell(make_context=make_shell_context))

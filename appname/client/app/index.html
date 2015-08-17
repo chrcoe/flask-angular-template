@@ -20,7 +20,7 @@
 
     <div class="header" ng-controller="LogoutCtrl">
         <div class="container">
-            <nav class="navbar navbar-default" role="navigation">
+             <nav class="navbar navbar-default" role="navigation">
                 <div class="container-fluid">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar-collapse">
@@ -29,26 +29,23 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <!-- <div class="navbar-brand">COOKIES!</div> -->
-                        <a class="navbar-brand" href="#/">COOKIES!</a>
+                        <a class="navbar-brand" href="#/">Home</a>
                     </div>
                     <div class="collapse navbar-collapse" id="main-navbar-collapse">
-                        <ul class="nav navbar-nav">
-                            <li><a href="#/cookie">cookie</a></li>
-                            <li><a href="#/view2">view2</a></li>
-                            <li><a href="#/login">login</a></li>
-                            <!-- <li><a href="#/logout">logout</a></li> -->
+                        <ul class="nav navbar-nav" ng-if="!userLoggedIn">
+                            <li><a href="#/register">Register</a></li>
+                            <li><a href="#/login">Login</a></li>
+                        </ul>
+                        <ul class="nav navbar-nav" ng-if="userLoggedIn">
+                            <li><a href="#/appname/cookie">Cookie</a></li>
+                            <li><a href="#/appname/view2">View2</a></li>
                             <li><a href="" ng-click='logout()'>Logout</a></li>
                         </ul>
                     </div>
                 </div>
-                <!--/.navbar-collapse-->
             </nav>
-            <!--/.navbar-->
         </div>
-        <!--/.container-->
     </div>
-    <!--/.header-->
 
     <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
