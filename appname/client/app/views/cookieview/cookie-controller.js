@@ -112,7 +112,7 @@ cookie_module.controller('CookieCtrl', ['$scope', '$log', '$http',
             $log.log(url)
             $http.delete(url).
             then(function(results) {
-                $log.log(results.data.cookie);
+                $log.log(results.data);
                 $scope.cookie_result = null;
                 $scope.msg = "Cookie deleted!";
             }).
