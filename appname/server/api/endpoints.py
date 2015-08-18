@@ -1,4 +1,4 @@
-from api.resources import CookieAPI, CookieListAPI
+from api.resources import CookieAPI, CookieListAPI, UserAPI, UserListAPI
 
 
 def init(api):
@@ -9,7 +9,18 @@ def init(api):
         CookieListAPI, '/v1.0/cookies',
         endpoint='cookies', subdomain='api'
     )
+
     api.add_resource(
         CookieAPI, '/v1.0/cookies/<int:cookie_id>',
         endpoint='cookie', subdomain='api'
+    )
+
+    api.add_resource(
+        UserAPI, '/v1.0/users/<int:user_id>',  # '/v1.0/users',
+        endpoint='user', subdomain='api'
+    )
+
+    api.add_resource(
+        UserListAPI, '/v1.0/users',
+        endpoint='register_user', subdomain='api'
     )

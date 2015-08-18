@@ -21,6 +21,10 @@ class User(db.Model):
     api_key_hash = db.Column(db.String(255))
     authenticated = db.Column(db.Boolean, default=False)
 
+    def __init__(self, username=None, password=None):
+        self.username = username
+        self.password = password
+
     def is_active(self):
         return True
 
