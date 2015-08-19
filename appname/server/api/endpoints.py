@@ -16,11 +16,11 @@ def init(api):
     )
 
     api.add_resource(
-        UserAPI, '/v1.0/users/<int:user_id>',  # '/v1.0/users',
+        UserAPI, '/v1.0/users/<int:user_id>',
         endpoint='user', subdomain='api'
     )
 
     api.add_resource(
         UserListAPI, '/v1.0/users',
-        endpoint='register_user', subdomain='api'
+        endpoint='users', subdomain='api'
     )
