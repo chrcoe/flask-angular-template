@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 import os
-from flask import request, jsonify, session
+from flask import request, jsonify, session, g
 from flask.ext.script import Manager, Shell, Command, Server
 from flask.ext.migrate import Migrate, MigrateCommand
 from flask.ext.login import login_required
@@ -59,15 +59,16 @@ class DBAPIUser(Command):
 def login():
     json_data = request.json
     user = User.query.filter_by(username=json_data['username']).first()
-    # if user and user.verify_password(json_data.get('password', '')) \
-    if user and user.verify_api_key(json_data.get('api_key', '')):
+    if user and user.verify_password(json_data.get('password', '')):
+        # if user and user.verify_api_key(json_data.get('api_key', '')):
         session['logged_in'] = True
         status = True
+        g.user = user
         print('user logged in!')
     else:
         status = False
         print('user failed to authenticate!:\t{}:{}'.format(
-            json_data['username'], json_data['api_key']))
+            json_data['username'], json_data['password']))
     return jsonify(result=status)
 
 
@@ -75,8 +76,15 @@ def login():
 @login_required
 def logout():
     session.pop('logged_in', None)
+    del g.user
     return jsonify(result=True)
 
+
+@app.route('/token', subdomain='api')
+@login_required
+def get_auth_token():
+    token = g.user.generate_auth_token()
+    return jsonify({'token': token.decode('ascii')})
 
 # @app.route('/register', methods=['POST'], subdomain='api')
 # def register():

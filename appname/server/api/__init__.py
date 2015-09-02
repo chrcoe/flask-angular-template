@@ -34,9 +34,7 @@ def create_app(config_name):
     # initialize the endpoints
     endpoints.init(api)
 
+    # initialize the login manager from Flask-Login
     login_manager.init_app(app)
 
     return app
-
-
-
