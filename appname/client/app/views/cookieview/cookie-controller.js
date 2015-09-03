@@ -18,15 +18,27 @@ cookie_module.config(['$routeProvider', '$httpProvider',
         // this is setting the authentication headers for all Cookie-related
         // API requests .. this can be done in the global app.js setup as well:
         // https://docs.angularjs.org/api/ng/service/$http
-        $httpProvider.defaults.headers.common[
-                // special API account for this application .. users still need to be
-                // logged in to get to the view which provides access to the cookie ctrl
-                'Authorization'] = 'Basic dGVzdGFwaTphcGlfa2V5'
-            // obviously this is hardcoded and would not be very secure, need
-            // to pull this from an environment variable or config file that is
-            // NEVER saved to github
+        // $httpProvider.defaults.headers.common[
+        // // special API account for this application .. users still need to be
+        // // logged in to get to the view which provides access to the cookie ctrl
+        // 'Authorization'] = 'Basic dGVzdDp0ZXN0'
+        // obviously this is hardcoded and would not be very secure, need
+        // to pull this from an environment variable or config file that is
+        // NEVER saved to github
     }
 ]);
+
+// TODO: need to figure out getting the token from a GET api.xyz/token HTTP call
+// then passing this in each controller until it expires, then get another token
+// .. that way the user logs in only once and then it is all tokens from there.
+//
+// the GET /token call can happen upon first login, then again every time the
+// token expires
+
+// the problem here is that to access a protected resource from an API, there
+// are two parts, the first is to login to the front end
+// the second is to use a token for all API calls from there on out until the
+// user logs out...
 
 cookie_module.controller('CookieCtrl', ['$scope', '$log', '$http',
     function($scope, $log, $http) {

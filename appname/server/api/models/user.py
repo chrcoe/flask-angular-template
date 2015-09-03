@@ -1,12 +1,12 @@
 import base64
-from flask import g
+# from flask import g
 from werkzeug.security import generate_password_hash, check_password_hash
 from api import db, login_manager
 # from miguel - not using flask-login ...
 from itsdangerous import (TimedJSONWebSignatureSerializer
                           as Serializer, BadSignature, SignatureExpired)
 from api import config
-from pprint import pprint as pp
+# from pprint import pprint as pp
 # pylint:disable=R0903
 
 
@@ -21,9 +21,10 @@ class User(db.Model):
     # api_key_hash = db.Column(db.String(255))
     authenticated = db.Column(db.Boolean, default=False)
 
-    def __init__(self, username=None, password=None):
+    def __init__(self, username=None, password=None, api_key=None):
         self.username = username
         self.password = password
+        self.api_key = api_key
 
     def generate_auth_token(self, expiration=600):
         # TODO: figure out a better way to get the config setup from the main
@@ -69,29 +70,11 @@ class User(db.Model):
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    @property
-    def api_key(self):
-        # do NOT allow anything read a User's password, EVER
-        raise AttributeError('api_key is not a readable attribute')
 
-    # @api_key.setter
-    # def api_key(self, api_key):
-        # # new_key = bytes('{}:{}'.format(
-        # # self.username, self.password_hash), encoding='utf-8')
-        # # self.api_key_hash = generate_password_hash(api_key)
-        # self.api_key = api_key
-
-    # def verify_api_key(self, api_key):
-        # # not all users will have API access ...
-        # if self.api_key_hash:
-        #     return check_password_hash(self.api_key_hash, api_key)
-        # return False
-
-
-# needed for front end authentication ...
-# @login_manager.user_loader
-# def load_user(userid):
-    # return User.query.get(userid)
+# needed for front end authentication ... maybe (?)
+@login_manager.user_loader
+def load_user(userid):
+    return User.query.get(userid)
 
 
 @login_manager.request_loader
@@ -99,17 +82,22 @@ def load_user_from_request(request):
 
     # first, try to login using the api_key url arg
     api_key = request.args.get('api_key')
-    pp(request)
+    # pp(request)
     print(api_key)
     if api_key:
         user = User.query.filter_by(api_key=api_key).first()
-        if user and user.verify_api_key(api_key):
+        # if user and user.verify_api_key(api_key):
+        if user:
+            # g.user = user
             return user
 
     # TODO: implement token authentication as well ...
 
     # next, try to login using Basic Auth
     auth_values = request.headers.get('Authorization')
+    if auth_values is None:
+        auth_values = request.headers.get('token')
+
     if auth_values:
         auth_values = auth_values.replace('Basic ', '', 1)
         try:
@@ -122,13 +110,29 @@ def load_user_from_request(request):
             pass
         user = User.query.filter_by(username=in_username).first()
         if user and user.verify_password(in_password):
-            g.user = user
+            # g.user = user
             return user
         else:
             print('failed to authenticate using username and password!')
 
     # finally, return None if both methods did not login the user
     return None
+
+
+# @login_manager.request_loader
+# def load_user_from_request(request):
+    # token = request.headers.get('Authorization')
+    # if token is None:
+    # token = request.args.get('token')
+
+    # if token is not None:
+    # username, password = token.split(":")  # naive token
+    # user_entry = User.get(username)
+    # if (user_entry is not None):
+    # user = User(user_entry[0], user_entry[1])
+    # if user.verify_password(password):
+    # return user
+    # return None
 
 
 # @login_manager.token_loader

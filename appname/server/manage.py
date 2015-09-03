@@ -35,8 +35,7 @@ class DBRegUser(Command):
         self.db = db
 
     def run(self):
-        user = User(username='test')
-        user.password = 'test'
+        user = User(username='test', password='test')
         self.db.session.add(user)
         self.db.session.commit()
 
@@ -48,9 +47,11 @@ class DBAPIUser(Command):
         self.db = db
 
     def run(self):
-        api_user = User(username='testapi')
-        api_user.password = 'testapi'
-        api_user.api_key = 'api_key'
+        api_user = User(
+            username='testapi',
+            password='testapi',
+            api_key='api_key'
+        )
         self.db.session.add(api_user)
         self.db.session.commit()
 

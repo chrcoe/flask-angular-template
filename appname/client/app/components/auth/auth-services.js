@@ -19,14 +19,14 @@ auth_module.factory('AuthService', ['$q', '$timeout', '$http',
             }
         }
 
-        function login(username, apiKey) {
-            console.log("in AuthService.login(username, apiKey)");
+        function login(username, password) {
+            console.log("in AuthService.login(username, password)");
             // create a new instance of deferred
             var deferred = $q.defer();
             // send a post request to the server
             $http.post('http://api.testflask.local:5000/login', {
                     username: username,
-                    api_key: apiKey
+                    password: password
                 })
                 // handle success
                 .success(function(data, status) {
