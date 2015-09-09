@@ -23,7 +23,6 @@ auth_module.controller('LoginCtrl', ['$rootScope', '$scope', '$location', 'AuthS
                     // after successful login goto the main page...
                     $location.path('/');
                     $scope.disabled = false;
-                    console.log("$scope.disabled: " + $scope.disabled);
                     $scope.loginForm = {};
                     $rootScope.userLoggedIn = true;
                 })

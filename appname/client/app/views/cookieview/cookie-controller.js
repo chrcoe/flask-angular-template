@@ -18,13 +18,13 @@ cookie_module.config(['$routeProvider', '$httpProvider',
         // this is setting the authentication headers for all Cookie-related
         // API requests .. this can be done in the global app.js setup as well:
         // https://docs.angularjs.org/api/ng/service/$http
-        // $httpProvider.defaults.headers.common[
-        // // special API account for this application .. users still need to be
-        // // logged in to get to the view which provides access to the cookie ctrl
-        // 'Authorization'] = 'Basic dGVzdDp0ZXN0'
-        // obviously this is hardcoded and would not be very secure, need
-        // to pull this from an environment variable or config file that is
-        // NEVER saved to github
+        $httpProvider.defaults.headers.common[
+                // special API account for this application .. users still need to be
+                // logged in to get to the view which provides access to the cookie ctrl
+                'Authorization'] = 'Basic dGVzdDp0ZXN0'
+            // obviously this is hardcoded and would not be very secure, need
+            // to pull this from an environment variable or config file that is
+            // NEVER saved to github
     }
 ]);
 

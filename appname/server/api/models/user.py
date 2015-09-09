@@ -33,6 +33,11 @@ class User(db.Model):
         s = Serializer(_config.SECRET_KEY, expires_in=expiration)
         return s.dumps({'user_id': self.user_id})
 
+    def get_auth_token(self, expiration=600):
+        _config = config['default']
+        s = Serializer(_config.SECRET_KEY, expires_in=expiration)
+        return s.dumps({'user_id': self.user_id})
+
     @staticmethod
     def verify_auth_token(token):
         _config = config['default']
@@ -72,9 +77,14 @@ class User(db.Model):
 
 
 # needed for front end authentication ... maybe (?)
-@login_manager.user_loader
-def load_user(userid):
-    return User.query.get(userid)
+# @login_manager.user_loader
+# def load_user(userid):
+    # return User.query.get(userid)
+
+
+@login_manager.token_loader
+def load_user_from_token(token):
+    pass
 
 
 @login_manager.request_loader

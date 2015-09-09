@@ -87,24 +87,25 @@ def get_auth_token():
     token = g.user.generate_auth_token()
     return jsonify({'token': token.decode('ascii')})
 
-# @app.route('/register', methods=['POST'], subdomain='api')
-# def register():
-    # json_data = request.json
-    # user = User(
-    # username=json_data['username'],
-    # password=json_data['password']
-    # )
-    # try:
-    # db.session.add(user)
-    # db.session.commit()
-    # # status = 'success'
-    # status = True
-    # print('successfully registered user:\t{}'.format(json_data['username']))
-    # except:
-    # # status = 'this user is already registered'
-    # status = False
-    # db.session.close()
-    # return jsonify(result=status)
+
+@app.route('/register', methods=['POST'], subdomain='api')
+def register():
+    json_data = request.json
+    user = User(
+        username=json_data['username'],
+        password=json_data['password']
+    )
+    try:
+        db.session.add(user)
+        db.session.commit()
+        # status = 'success'
+        status = True
+        print('successfully registered user:\t{}'.format(json_data['username']))
+    except:
+            # status = 'this user is already registered'
+        status = False
+    db.session.close()
+    return jsonify(result=status)
 
 manager.add_command('runserver', Server(host='testflask.local', port=5000))
 manager.add_command('shell', Shell(make_context=make_shell_context))

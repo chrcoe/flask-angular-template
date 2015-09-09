@@ -32,6 +32,7 @@ auth_module.factory('AuthService', ['$q', '$timeout', '$http',
                 .success(function(data, status) {
                     if (status === 200 && data.result) {
                         user = true;
+                        console.log("Successful login!")
                         deferred.resolve();
                     } else {
                         user = false;
